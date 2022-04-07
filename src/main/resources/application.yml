@@ -33,15 +33,15 @@ quarkus:
     messaging:
       incoming:
         # Configuring the incoming channel (reading from Kafka)
-        sec-payment:
+        sec-payments:
           connector: smallrye-kafka
-          topic: sec-payment
+          topic: sec-payments
           value:
             deserializer: br.dev.multicode.utils.deserializers.OrderPaymentMessageDeserializer
       outgoing:
         # Configuring the outgoing channel (writing to Kafka)
-        sec-replay:
+        sec-response-status:
           connector: smallrye-kafka
-          topic: sec-replay
+          topic: sec-response-status
           value:
             serializer: io.quarkus.kafka.client.serialization.JsonbSerializer
