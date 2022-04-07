@@ -3,7 +3,7 @@ databaseChangeLog:
       id: V001
       labels: "table_payments"
       author: "andre.dev.linux@gmail.com"
-      comment: "Create table payments and index"
+      comment: "Create table payments, uniqueConstraint and index"
       changes:
         - tagDatabase:
             tag: 1.0.0
@@ -70,3 +70,8 @@ databaseChangeLog:
                   name: user_id
               - column:
                   name: created_at
+        - addUniqueConstraint:
+            constraintName: uconst_payments_order_id
+            tableName: payments
+            columnNames: order_id
+            validate: true
