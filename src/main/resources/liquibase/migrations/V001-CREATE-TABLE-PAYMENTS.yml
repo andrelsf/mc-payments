@@ -28,6 +28,16 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: status
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type_payment
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: false
+              - column:
                   name: transaction_id
                   type: VARCHAR(37)
                   constraints:
