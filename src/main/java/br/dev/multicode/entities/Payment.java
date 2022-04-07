@@ -1,22 +1,26 @@
 package br.dev.multicode.entities;
 
+import static org.apache.commons.lang3.RandomStringUtils.random;
+
 import br.dev.multicode.enums.OrderStatus;
 import br.dev.multicode.enums.TypePayment;
+import br.dev.multicode.models.OrderPaymentMessage;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 
 @Data
 @Builder
@@ -24,12 +28,10 @@ import org.hibernate.annotations.GenericGenerator;
 @NoArgsConstructor
 @Entity
 @Table(name = "payments")
-public class Payment {
+public class Payment extends PanacheEntityBase {
 
   @Id
   @Column(name = "payment_id", length = 37, nullable = false)
-  @GeneratedValue(generator = "UUID")
-  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
   private String id;
 
   @Column(name = "order_id", length = 37, nullable = false)
@@ -56,6 +58,23 @@ public class Payment {
   private BigDecimal amountPaid;
 
   @CreationTimestamp
-  private ZonedDateTime received_at;
+  @Column(name = "received_at", nullable = false)
+  private ZonedDateTime receivedAt;
 
+  @PrePersist
+  private void prePersist()
+  {
+    this.id = UUID.randomUUID().toString();
+  }
+
+  public static Payment of(OrderPaymentMessage orderPaymentMessage) {
+    return Payment.builder()
+        .orderId(orderPaymentMessage.getOrderId().toString())
+        .userId(orderPaymentMessage.getUserId().toString())
+        .status(OrderStatus.PAYMENT_DONE) // random
+        .transactionId(UUID.randomUUID().toString())
+        .authorizationCode(random(30, true, true))
+        .amountPaid(orderPaymentMessage.getPrice())
+        .build();
+  }
 }
