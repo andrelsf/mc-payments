@@ -17,7 +17,7 @@ public class OrderPaymentConsumer {
 
   @Inject PaymentService paymentService;
 
-  @Incoming("sec-payments")
+  @Incoming("sec-payment")
   public CompletionStage<Void> receiveOrderPaymentFromKafka(Message<OrderPaymentMessage> orderPaymentMessage)
   {
     var metadata = orderPaymentMessage.getMetadata(IncomingKafkaRecordMetadata.class)
