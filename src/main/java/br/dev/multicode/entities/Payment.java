@@ -72,6 +72,7 @@ public class Payment extends PanacheEntityBase {
         .orderId(orderPaymentMessage.getOrderId().toString())
         .userId(orderPaymentMessage.getUserId().toString())
         .status(OrderStatus.PAYMENT_DONE) // random
+        .typePayment(TypePayment.CREDIT_CARD)
         .transactionId(UUID.randomUUID().toString())
         .authorizationCode(random(30, true, true))
         .amountPaid(orderPaymentMessage.getPrice())
