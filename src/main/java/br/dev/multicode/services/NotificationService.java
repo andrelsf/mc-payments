@@ -1,9 +1,9 @@
 package br.dev.multicode.services;
 
-import br.dev.multicode.models.OrderProcessingStatus;
+import br.dev.multicode.services.kafka.ProducerService;
 
 public interface NotificationService {
 
-  void doNotification(OrderProcessingStatus orderProcessingStatus);
+  <T> void doNotification(T message, ProducerService producerService);
 
 }
