@@ -26,22 +26,22 @@ quarkus:
       level: INFO
       format: "%d{HH:mm:ss} %-5p traceId=%X{traceId}, parentId=%X{parentId}, spanId=%X{spanId}, sampled=%X{sampled} [%c{2.}] (%t) %s%e%n"
 
-  kafka:
-    bootstrap:
-      servers: localhost:9092
-  mp:
-    messaging:
-      incoming:
-        # Configuring the incoming channel (reading from Kafka)
-        sec-payments:
-          connector: smallrye-kafka
-          topic: sec-payments
-          value:
-            deserializer: br.dev.multicode.utils.deserializers.OrderPaymentMessageDeserializer
-      outgoing:
-        # Configuring the outgoing channel (writing to Kafka)
-        sec-response-status:
-          connector: smallrye-kafka
-          topic: sec-response-status
-          value:
-            serializer: io.quarkus.kafka.client.serialization.JsonbSerializer
+kafka:
+  bootstrap:
+    servers: localhost:9092
+mp:
+  messaging:
+    incoming:
+      # Configuring the incoming channel (reading from Kafka)
+      sec-payment:
+        connector: smallrye-kafka
+        topic: sec-payment
+        value:
+          deserializer: br.dev.multicode.utils.deserializers.OrderPaymentMessageDeserializer
+    outgoing:
+      # Configuring the outgoing channel (writing to Kafka)
+      sec-response-status:
+        connector: smallrye-kafka
+        topic: sec-response-status
+        value:
+          serializer: io.quarkus.kafka.client.serialization.JsonbSerializer
